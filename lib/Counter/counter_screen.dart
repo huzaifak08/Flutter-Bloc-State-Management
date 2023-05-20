@@ -1,15 +1,17 @@
-import 'package:bloc_statemanagement/counter_block.dart';
+import 'package:bloc_statemanagement/Counter/counter_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class CounterScreen extends StatelessWidget {
+  const CounterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Bloc Provider:
     final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Counter Bloc')),
+      appBar: AppBar(title: const Text('Counter Bloc')),
       body: Center(child: BlocBuilder<CounterBloc, int>(
         builder: (context, state) {
           return Text('${state}');
@@ -23,14 +25,14 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               counterBloc.add(IncrementEvent());
             },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           FloatingActionButton(
             onPressed: () {
               counterBloc.add(DecrementEvent());
             },
-            child: Icon(Icons.remove),
+            child: const Icon(Icons.remove),
           ),
         ],
       ),
