@@ -1,46 +1,44 @@
-// import 'package:bloc_statemanagement/Firestore/database_service.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_statemanagement/Firestore/database_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// class DataBloc extends Bloc<DataEvent, DataState> {
-//   DatabaseService databaseService;
+class DataBloc extends Bloc<DataEvent, DataState> {
+  DatabaseService databaseService;
 
-//   DataBloc(this.databaseService) : super(DataInitialState());
+  DataBloc(this.databaseService) : super(DataInitialState()) {
+    on<DataSendEvent>((event, emit) async {
+      emit(DataLoadingState());
 
-//   Stream<DataState> mapEventToState(DataEvent event) async* {
-//     if (event is DataSendEvent) {
-//       yield DataLoadingState();
+      try {
+        await databaseService.saveDataToFirestore(event.name, event.price);
+        emit(DataSendState());
+      } catch (e) {
+        emit(DataErrorState(e.toString()));
+      }
+    });
+  }
+}
 
-//       try {
-//         await databaseService.saveDataToFirestore(event.name, event.price);
-//         yield DataSendState();
-//       } catch (e) {
-//         DataErrorState(e.toString());
-//       }
-//     }
-//   }
-// }
+// Events:
 
-// // Events:
+abstract class DataEvent {}
 
-// abstract class DataEvent {}
+class DataSendEvent extends DataEvent {
+  final String name;
+  final String price;
+  DataSendEvent({required this.name, required this.price});
+}
 
-// class DataSendEvent extends DataEvent {
-//   final String name;
-//   final String price;
-//   DataSendEvent(this.name, this.price);
-// }
+// States:
 
-// // States:
+abstract class DataState {}
 
-// abstract class DataState {}
+class DataSendState extends DataState {}
 
-// class DataSendState extends DataState {}
+class DataErrorState extends DataState {
+  final String error;
+  DataErrorState(this.error);
+}
 
-// class DataErrorState extends DataState {
-//   final String error;
-//   DataErrorState(this.error);
-// }
+class DataInitialState extends DataState {}
 
-// class DataInitialState extends DataState {}
-
-// class DataLoadingState extends DataState {}
+class DataLoadingState extends DataState {}

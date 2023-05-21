@@ -4,8 +4,8 @@ class DatabaseService {
   final CollectionReference blocProductCollection =
       FirebaseFirestore.instance.collection('bloc_products');
 
-  Future saveDataToFirestore(String name, String price) async {
-    return await blocProductCollection.add({
+  Future<void> saveDataToFirestore(String name, String price) async {
+    await blocProductCollection.add({
       'name': name,
       'price': price,
     });
