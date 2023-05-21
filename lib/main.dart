@@ -1,11 +1,13 @@
 import 'package:bloc_statemanagement/Counter/counter_block.dart';
-import 'package:bloc_statemanagement/Counter/counter_screen.dart';
 import 'package:bloc_statemanagement/Message/message_block.dart';
 import 'package:bloc_statemanagement/Message/message_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
