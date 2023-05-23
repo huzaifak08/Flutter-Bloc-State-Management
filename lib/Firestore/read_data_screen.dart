@@ -20,23 +20,44 @@ class _ReadDataScreenState extends State<ReadDataScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dataBloc = BlocProvider.of<DataBloc>(context);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Fetch Data Bloc')),
       body: BlocBuilder<DataBloc, DataState>(
         builder: (context, state) {
           if (state is DataReadState) {
-            return ListView.builder(
-              itemCount: state.data.length,
-              itemBuilder: (context, index) {
-                debugPrint(state.data[index].name);
-                return ListTile(
-                  title: Text(state.data[index].name),
-                  subtitle: Text(state.data[index].price),
-                );
-              },
-            );
+            if (state.data.isEmpty) {
+              return Text('No Data Available');
+            } else {
+              return ListView.builder(
+                itemCount: state.data.length,
+                itemBuilder: (context, index) {
+                  // debugPrint(state.data[index].name);
+                  return ListTile(
+                    onTap: () {},
+                    title: Text(state.data[index].name),
+                    subtitle: Text(state.data[index].price),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        dataBloc.add(DataDeleteEvent(
+                            documentId: state.data[index].documentId));
+                      },
+                    ),
+                  );
+                },
+              );
+            }
+          } else if (state is DataLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is DataDeleteState) {
+            dataBloc.add(DataReadEvent());
+            return const Text('Data Deleted');
+          } else if (state is DataErrorState) {
+            return Text('Some Error:${state.error}');
           } else {
-            return Text('Some Error');
+            return const Text('Some Serious Error');
           }
         },
       ),

@@ -13,7 +13,7 @@ class CreateDataScreen extends StatelessWidget {
     final priceController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Send Data Bloc')),
+      appBar: AppBar(title: Text('Send Data Bloc')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -32,6 +32,8 @@ class CreateDataScreen extends StatelessWidget {
                 onPressed: () {
                   dataBloc.add(DataSendEvent(
                       name: nameController.text, price: priceController.text));
+
+                  Navigator.pop(context);
                 },
                 child: Text('Send Data'))
           ],

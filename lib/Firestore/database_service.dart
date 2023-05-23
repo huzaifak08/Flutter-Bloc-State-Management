@@ -25,4 +25,9 @@ class DatabaseService {
 
     return dataList;
   }
+
+  // Delete Data:
+  Future<void> deleteData(String docId) async {
+    await blocProductCollection.doc(docId).delete();
+  }
 }
