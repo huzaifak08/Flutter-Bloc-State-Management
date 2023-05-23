@@ -1,6 +1,5 @@
 import 'package:bloc_statemanagement/Firestore/data_model.dart';
 import 'package:bloc_statemanagement/Firestore/database_service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DataBloc extends Bloc<DataEvent, DataState> {
@@ -43,6 +42,19 @@ class DataBloc extends Bloc<DataEvent, DataState> {
         emit(DataErrorState(e.toString()));
       }
     });
+
+    // Data Update Event:
+    on<DataUpdateEvent>((event, emit) async {
+      emit(DataLoadingState());
+
+      try {
+        await databaseService.updateData(
+            event.documentId, event.name, event.price);
+        emit(DataUpdateState());
+      } catch (e) {
+        emit(DataErrorState(e.toString()));
+      }
+    });
   }
 }
 
@@ -63,6 +75,14 @@ class DataDeleteEvent extends DataEvent {
   DataDeleteEvent({required this.documentId});
 }
 
+class DataUpdateEvent extends DataEvent {
+  final String documentId;
+  final String name;
+  final String price;
+  DataUpdateEvent(
+      {required this.name, required this.price, required this.documentId});
+}
+
 // States:
 
 abstract class DataState {}
@@ -75,6 +95,8 @@ class DataReadState extends DataState {
 }
 
 class DataDeleteState extends DataState {}
+
+class DataUpdateState extends DataState {}
 
 class DataErrorState extends DataState {
   final String error;

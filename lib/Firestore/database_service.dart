@@ -30,4 +30,12 @@ class DatabaseService {
   Future<void> deleteData(String docId) async {
     await blocProductCollection.doc(docId).delete();
   }
+
+  // Update Data:
+  Future updateData(String docId, String name, String price) async {
+    blocProductCollection.doc(docId).update({
+      'name': name,
+      'price': price,
+    });
+  }
 }

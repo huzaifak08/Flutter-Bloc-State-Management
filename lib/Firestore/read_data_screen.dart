@@ -1,5 +1,6 @@
 import 'package:bloc_statemanagement/Firestore/create_data_screen.dart';
 import 'package:bloc_statemanagement/Firestore/data_bloc.dart';
+import 'package:bloc_statemanagement/Firestore/update_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,14 +29,25 @@ class _ReadDataScreenState extends State<ReadDataScreen> {
         builder: (context, state) {
           if (state is DataReadState) {
             if (state.data.isEmpty) {
-              return Text('No Data Available');
+              return const Text('No Data Available');
             } else {
               return ListView.builder(
                 itemCount: state.data.length,
                 itemBuilder: (context, index) {
                   // debugPrint(state.data[index].name);
                   return ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UpdateDataScreen(
+                                      documentId: state.data[index].documentId,
+                                      oldName: state.data[index].name,
+                                      oldPrice: state.data[index].price)))
+                          .then((value) {
+                        dataBloc.add(DataReadEvent());
+                      });
+                    },
                     title: Text(state.data[index].name),
                     subtitle: Text(state.data[index].price),
                     trailing: IconButton(
@@ -51,6 +63,9 @@ class _ReadDataScreenState extends State<ReadDataScreen> {
             }
           } else if (state is DataLoadingState) {
             return const Center(child: CircularProgressIndicator());
+          } else if (state is DataSendState) {
+            dataBloc.add(DataReadEvent());
+            return const Text('Data Send Successfully to Firestore');
           } else if (state is DataDeleteState) {
             dataBloc.add(DataReadEvent());
             return const Text('Data Deleted');
@@ -63,8 +78,10 @@ class _ReadDataScreenState extends State<ReadDataScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateDataScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateDataScreen()));
         },
         child: const Icon(Icons.add),
       ),
