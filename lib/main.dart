@@ -1,7 +1,9 @@
+import 'package:bloc_statemanagement/Authentication/auth_bloc.dart';
+import 'package:bloc_statemanagement/Authentication/auth_service.dart';
+import 'package:bloc_statemanagement/Authentication/signup_screen.dart';
 import 'package:bloc_statemanagement/Counter/counter_block.dart';
 import 'package:bloc_statemanagement/Firestore/data_bloc.dart';
 import 'package:bloc_statemanagement/Firestore/database_service.dart';
-import 'package:bloc_statemanagement/Firestore/read_data_screen.dart';
 import 'package:bloc_statemanagement/Message/message_block.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<CounterBloc>(create: (context) => CounterBloc()),
         BlocProvider<MessageBloc>(create: (context) => MessageBloc()),
-        BlocProvider<DataBloc>(create: (context) => DataBloc(DatabaseService()))
+        BlocProvider<DataBloc>(
+            create: (context) => DataBloc(DatabaseService())),
+        BlocProvider<AuthBloc>(create: (context) => AuthBloc(AuthService()))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -30,7 +34,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const ReadDataScreen(),
+        home: const RegisterScreen(),
       ),
     );
   }
