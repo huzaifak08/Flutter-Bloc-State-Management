@@ -1,4 +1,5 @@
 import 'package:bloc_statemanagement/Authentication/auth_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -17,6 +18,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthErrorState(e.toString()));
       }
     });
+
+    // Login:
+    on<SignInEvent>((event, emit) async {
+      emit(AuthLoadingState());
+
+      try {
+        await authService.loginUser(event.email, event.password);
+        emit(SignInState());
+      } catch (e) {
+        emit(AuthErrorState(e.toString()));
+      }
+    });
   }
 }
 
@@ -30,6 +43,12 @@ class SignUpEvent extends AuthEvent {
   SignUpEvent(this.email, this.password);
 }
 
+class SignInEvent extends AuthEvent {
+  final String email;
+  final String password;
+  SignInEvent(this.email, this.password);
+}
+
 class InitialEvent extends AuthEvent {}
 
 class AuthLoadingEvent extends AuthEvent {}
@@ -39,6 +58,8 @@ class AuthLoadingEvent extends AuthEvent {}
 abstract class AuthState {}
 
 class SignUpState extends AuthState {}
+
+class SignInState extends AuthState {}
 
 class InitialState extends AuthState {}
 

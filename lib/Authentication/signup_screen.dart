@@ -1,4 +1,5 @@
 import 'package:bloc_statemanagement/Authentication/auth_bloc.dart';
+import 'package:bloc_statemanagement/Authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,12 +32,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             } else if (state is SignUpState) {
               // Navigate to next Screen:
               ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Register Successfull')));
+                  const SnackBar(content: Text('Register Successfull')));
             }
           },
           builder: (context, state) {
             if (state is AuthLoadingState) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else {
               return Form(
                 key: formkey,
@@ -71,7 +72,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 emailController.text, passwordController.text));
                           }
                         },
-                        child: const Text('Register'))
+                        child: const Text('Register')),
+                    const SizedBox(height: 12),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        },
+                        child: Text('Login'))
                   ],
                 ),
               );
