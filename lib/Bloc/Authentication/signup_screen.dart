@@ -1,5 +1,5 @@
-import 'package:bloc_statemanagement/Authentication/auth_bloc.dart';
-import 'package:bloc_statemanagement/Authentication/login_screen.dart';
+import 'package:bloc_statemanagement/Bloc/Authentication/auth_bloc.dart';
+import 'package:bloc_statemanagement/Bloc/Authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

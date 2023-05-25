@@ -1,5 +1,5 @@
-import 'package:bloc_statemanagement/Firestore/data_model.dart';
-import 'package:bloc_statemanagement/Firestore/database_service.dart';
+import 'package:bloc_statemanagement/Bloc/Firestore/data_model.dart';
+import 'package:bloc_statemanagement/Bloc/Firestore/database_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DataBloc extends Bloc<DataEvent, DataState> {

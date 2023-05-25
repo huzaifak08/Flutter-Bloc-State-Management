@@ -1,4 +1,4 @@
-import 'package:bloc_statemanagement/Firestore/data_model.dart';
+import 'package:bloc_statemanagement/Bloc/Firestore/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {

@@ -1,4 +1,4 @@
-import 'package:bloc_statemanagement/Counter/counter_block.dart';
+import 'package:bloc_statemanagement/Bloc/Counter/counter_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

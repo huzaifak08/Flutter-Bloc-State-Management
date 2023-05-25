@@ -1,13 +1,14 @@
-import 'package:bloc_statemanagement/Authentication/auth_bloc.dart';
-import 'package:bloc_statemanagement/Authentication/auth_service.dart';
-import 'package:bloc_statemanagement/Authentication/signup_screen.dart';
-import 'package:bloc_statemanagement/Counter/counter_block.dart';
-import 'package:bloc_statemanagement/Firestore/data_bloc.dart';
-import 'package:bloc_statemanagement/Firestore/database_service.dart';
-import 'package:bloc_statemanagement/Message/message_block.dart';
+import 'package:bloc_statemanagement/Bloc/Authentication/auth_bloc.dart';
+import 'package:bloc_statemanagement/Bloc/Firestore/data_bloc.dart';
+import 'package:bloc_statemanagement/Bloc/Firestore/database_service.dart';
+import 'package:bloc_statemanagement/Cubit/connectivity_cubit.dart';
+import 'package:bloc_statemanagement/Cubit/connectivity_cubit_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'Bloc/Authentication/auth_service.dart';
+import 'Bloc/Counter/counter_block.dart';
+import 'Bloc/Message/message_block.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<MessageBloc>(create: (context) => MessageBloc()),
         BlocProvider<DataBloc>(
             create: (context) => DataBloc(DatabaseService())),
-        BlocProvider<AuthBloc>(create: (context) => AuthBloc(AuthService()))
+        BlocProvider<AuthBloc>(create: (context) => AuthBloc(AuthService())),
+        BlocProvider<InternetCubit>(
+          create: (context) => InternetCubit(),
+        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -34,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const RegisterScreen(),
+        home: const ConnectivityCubitScreen(),
       ),
     );
   }
