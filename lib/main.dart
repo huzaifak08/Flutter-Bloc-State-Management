@@ -1,8 +1,9 @@
 import 'package:bloc_statemanagement/Bloc/Authentication/auth_bloc.dart';
 import 'package:bloc_statemanagement/Bloc/Firestore/data_bloc.dart';
 import 'package:bloc_statemanagement/Bloc/Firestore/database_service.dart';
+import 'package:bloc_statemanagement/Bloc/Form%20Validation/sign_in_bloc.dart';
+import 'package:bloc_statemanagement/Bloc/Form%20Validation/sign_in_screen.dart';
 import 'package:bloc_statemanagement/Cubit/connectivity_cubit.dart';
-import 'package:bloc_statemanagement/Cubit/connectivity_cubit_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,9 +29,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<DataBloc>(
             create: (context) => DataBloc(DatabaseService())),
         BlocProvider<AuthBloc>(create: (context) => AuthBloc(AuthService())),
-        BlocProvider<InternetCubit>(
-          create: (context) => InternetCubit(),
-        )
+        BlocProvider<InternetCubit>(create: (context) => InternetCubit()),
+        BlocProvider<SignInBloc>(create: (context) => SignInBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const ConnectivityCubitScreen(),
+        home: SignInScreen(),
       ),
     );
   }
