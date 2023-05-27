@@ -7,6 +7,7 @@ class CounterBloc extends Bloc<CounterEvent, int> {
   }
 }
 
+// Events
 abstract class CounterEvent {}
 
 class IncrementEvent extends CounterEvent {}
