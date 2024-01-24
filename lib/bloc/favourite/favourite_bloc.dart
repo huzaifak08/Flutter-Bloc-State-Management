@@ -32,7 +32,7 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
     final index =
         favouriteList.indexWhere((element) => element.id == event.item.id);
 
-    // Must see Lec 9 Bloc from 50:00 in case of error:
+    // Must see Lec 9 Bloc from 50:00 in case of error:--
     // Update the list with item which was added to favourite.
 
     favouriteList[index] = event.item;
