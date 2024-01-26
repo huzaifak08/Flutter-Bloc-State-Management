@@ -9,7 +9,7 @@ class PostRepository {
   Future<List<PostModel>> fetchPosts() async {
     try {
       final response = await http
-          .get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+          .get(Uri.parse('https://jsonplaceholder.typicode.com/comments'));
 
       if (response.statusCode == 200) {
         final body = json.decode(response.body) as List;

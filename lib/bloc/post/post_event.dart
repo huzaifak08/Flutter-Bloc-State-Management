@@ -8,3 +8,11 @@ abstract class PostEvent extends Equatable {
 }
 
 class FetchPosts extends PostEvent {}
+
+class SearchPost extends PostEvent {
+  final String seachStr;
+  const SearchPost({required this.seachStr});
+
+  @override
+  List<Object> get props => [seachStr];
+}

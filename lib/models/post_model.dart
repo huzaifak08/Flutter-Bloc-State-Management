@@ -5,25 +5,29 @@ import 'package:equatable/equatable.dart';
 class PostModel extends Equatable {
   final int userId;
   final int id;
-  final String title;
+  final String name;
+  final String email;
   final String body;
   const PostModel({
     required this.userId,
     required this.id,
-    required this.title,
+    required this.name,
+    required this.email,
     required this.body,
   });
 
   PostModel copyWith({
     int? userId,
     int? id,
-    String? title,
+    String? name,
+    String? email,
     String? body,
   }) {
     return PostModel(
       userId: userId ?? this.userId,
       id: id ?? this.id,
-      title: title ?? this.title,
+      name: name ?? this.name,
+      email: email ?? this.email,
       body: body ?? this.body,
     );
   }
@@ -32,7 +36,8 @@ class PostModel extends Equatable {
     return {
       'userId': userId,
       'id': id,
-      'title': title,
+      'name': name,
+      'email': email,
       'body': body,
     };
   }
@@ -41,7 +46,8 @@ class PostModel extends Equatable {
     return PostModel(
       userId: map['userId']?.toInt() ?? 0,
       id: map['id']?.toInt() ?? 0,
-      title: map['title'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
       body: map['body'] ?? '',
     );
   }
@@ -53,9 +59,17 @@ class PostModel extends Equatable {
 
   @override
   String toString() {
-    return 'PostModel(userId: $userId, id: $id, title: $title, body: $body)';
+    return 'PostModel(userId: $userId, id: $id, name: $name, email: $email, body: $body)';
   }
 
   @override
-  List<Object> get props => [userId, id, title, body];
+  List<Object> get props {
+    return [
+      userId,
+      id,
+      name,
+      email,
+      body,
+    ];
+  }
 }

@@ -8,10 +8,12 @@ part 'post_state.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final PostRepository _postRepository = PostRepository();
+  List<PostModel> _tempSearchList = [];
   // List<PostModel> _postList = []; // Method 1
 
   PostBloc() : super(const PostState()) {
     on<FetchPosts>(_fetchPosts);
+    on<SearchPost>(_searchPosts);
   }
 
   void _fetchPosts(FetchPosts event, Emitter<PostState> emit) async {
@@ -35,5 +37,29 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         message: error.toString(),
       ));
     });
+  }
+
+  void _searchPosts(SearchPost event, Emitter<PostState> emit) {
+    if (event.seachStr.isEmpty) {
+      emit(state.copyWith(tempSearchList: [], searchMessage: ''));
+    } else {
+      _tempSearchList = state.postList
+          // For exact match:
+          // .where((element) => event.seachStr == element.email)
+
+          // For word by word search:
+          .where((element) => element.email
+              .toLowerCase()
+              .contains(event.seachStr.toLowerCase()))
+          .toList();
+
+      if (_tempSearchList.isEmpty) {
+        emit(state.copyWith(
+            tempSearchList: _tempSearchList, searchMessage: 'No data found'));
+      } else {
+        emit(
+            state.copyWith(tempSearchList: _tempSearchList, searchMessage: ''));
+      }
+    }
   }
 }
